@@ -32,4 +32,4 @@ def size(d):
 sizes = list(map(size, contents))
 
 print(sum(filter(lambda s: s <= 100000, sizes)))
-print(next(s for s in sorted(sizes) if 70000000-(size(Path('/'))-s) >= 30000000))
+print(min(filter(lambda s: size(Path('/')) - s <= 40000000, sizes)))
