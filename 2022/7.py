@@ -5,10 +5,12 @@ from operator import methodcaller
 from pathlib import Path
 from functools import lru_cache
 
+
 @dataclass(unsafe_hash=True)
 class File:
     size: int
     path: str
+
 
 contents = defaultdict(list)
 wd = Path('/')
@@ -28,6 +30,7 @@ def size(d):
     if isinstance(d, File):
         return d.size
     return sum(map(size, contents[d]))
+
 
 sizes = list(map(size, contents))
 
