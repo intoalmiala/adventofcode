@@ -6,7 +6,8 @@ dirs = list(map(np.array, [(0, -1), (1, 0), (-1, 0), (0, 1)]))
 dirmap = dict(zip("LDUR", dirs))
 motions = [(dirmap[d], int(c)) for d, c in re.findall(r"(\w) (\d+)", data)]
 
-def count_visited(N, tails):
+def count_visited(*tails):
+    N = max(tails)
     ps = np.zeros((N,2), dtype=int)
     visited = {t: {tuple(ps[t-1])} for t in tails}
 
@@ -22,4 +23,4 @@ def count_visited(N, tails):
 
     return *map(len, visited.values()),
 
-print(*count_visited(10, [2, 10]))
+print(*count_visited(2, 10))
