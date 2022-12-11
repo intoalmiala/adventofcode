@@ -15,13 +15,7 @@ monkeys = [
         int(modulo[21:]),
         (int(false[-1]), int(true[-1]))
     )
-    for index,
-        items,
-        operation,
-        modulo,
-        true,
-        false
-    in monkeys
+    for index, items, operation, modulo, true, false in monkeys
 ]
 
 M = lcm(*[monkey.modulo for monkey in monkeys])
