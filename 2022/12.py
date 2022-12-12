@@ -1,43 +1,33 @@
 from aocd import lines
 import numpy as np
-from functools import lru_cache
 
-dirs = ((-1, 0), (1, 0), (0, 1), (0, -1))
-grid = np.array([[*map(ord, line)] for line in lines])
+grid = np.array([[*line] for line in lines])
 n, m = grid.shape
 
-def find(c):
-    return [*zip(*np.where(grid == ord(c)))]
+def findall(c):
+    return [*zip(*np.where(grid == c))]
 
-goal  = find('E')[0]
-start = find('S')[0]
-grid[start] = ord('a')
-grid[goal]  = ord('z')
+goal,  = findall('E')
+start, = findall('S')
+grid[start] = 'a'
+grid[goal]  = 'z'
 
-def shortest_path(start, goal):
-    @lru_cache()
-    def neighbors(y, x):
-        return [
-            (y+dy, x+dx)
-            for (dy, dx) in dirs
-            if  0 <= y+dy < n
-            and 0 <= x+dx < m
-            and grid[y+dy,x+dx] <= grid[y,x] + 1
-        ]
+dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+def neighbours(y, x):
+    for (dy, dx) in dirs:
+        if 0 <= y+dy < n and 0 <= x+dx < m:
+            yield (y+dy, x+dx)
 
-    queue = [start]
-    d = np.zeros((n, m), dtype=int)
-    d[start] = 1
+queue = [goal]
+d = np.zeros((n, m), dtype=int)
+d[goal] = 1
 
-    for p in iter(queue):
-        if p == goal:
-            return d[p]-1
-        for q in neighbors(*p):
-            if d[q]: continue
-            d[q] = d[p] + 1
-            queue.append(q)
+for p in iter(queue):
+    for q in neighbours(*p):
+        if d[q] or ord(grid[p]) > ord(grid[q]) + 1:
+            continue
+        d[q] = d[p] + 1
+        queue.append(q)
 
-    return 1_000_000_000
-
-print(shortest_path(start, goal))
-print(min(shortest_path(p, goal) for p in find('a')))
+print(d[start]-1)
+print(min(filter(None, [d[p] for p in findall('a')])) - 1)
