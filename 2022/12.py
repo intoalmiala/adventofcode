@@ -1,7 +1,6 @@
 from aocd import lines
 
 grid = {(y, x): c for y, line in enumerate(lines) for x, c in enumerate(line)}
-n, m = len(grid), len(grid[0,0])
 
 goal,  = (p for p in grid if grid[p] == 'E')
 start, = (p for p in grid if grid[p] == 'S')
