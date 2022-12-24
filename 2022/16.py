@@ -54,7 +54,10 @@ print(max(z for x in calculate_pressure(30) for y in x for z in y) - 1)
 
 dp = calculate_pressure(26)
 max_p = 0
-maxs_s = sorted((max(y for x in dp[b] for y in x), b) for b in range(2**N))[1000:]
+maxs_s = sorted(
+    [(max(y for x in dp[b] for y in x), b) for b in range(2**N)],
+    reverse=True
+)[:10000]
 for (x, b), (y, d) in product(maxs_s, maxs_s):
     if b & d: continue
     max_p = max(max_p, x+y-2)
