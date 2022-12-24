@@ -1,7 +1,8 @@
 from aocd import data
 import re
-from collections import defaultdict
 from itertools import product
+
+# this is a horrible solution...
 
 INF = 1e9
 lines = re.findall(r".* (\w{2}) .*=(\d+).*valves? (.*)", data)
